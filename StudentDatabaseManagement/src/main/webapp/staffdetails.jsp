@@ -21,14 +21,25 @@ background-color:#789768;
 height:60px;
 padding-top:1px;
 }
+#logout
+{
+text-align:right;
+
+}
 
 </style>
 <body bgcolor="#E9D7D7">
 <div id="heading">
 <h3>STUDENT INFORMATION PORTAL</h3>
 </div>
+<div id="logout">
+<form action="logout.jsp">
+<input type="submit" value="logout"/>
+</form>
+</div>
 <%= "<h3 > <i>Welcome "+ request.getParameter("staff_name") + "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
+
 <% 
 StudentDatabaseMap sdb=new StudentDatabaseMap();
 sdb.create();

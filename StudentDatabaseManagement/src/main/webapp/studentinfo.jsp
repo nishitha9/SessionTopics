@@ -9,11 +9,12 @@
 <body>
 <%
 
+session.setAttribute("student_name", request.getParameter("student_name"));
 String password=request.getParameter("password");
 if(password.equals("student"))
 {
 	RequestDispatcher rd=request.getRequestDispatcher("studentdetails.jsp");
-	rd.forward(request,response);
+	rd.include(request,response);
 	
 }
 else

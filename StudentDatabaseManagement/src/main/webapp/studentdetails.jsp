@@ -1,41 +1,81 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="we.app.sdb.*" %>
+<%@ page import="java.lang.Integer.*" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Set" %>
+<%@ page errorPage="error.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Student Database</title>
+<title>STUDENT WEB PORTAL</title>
 </head>
-<body>
-<%
-out.print("<h3 style=\"text-align:center\">Welcome "+ request.getParameter("student_name") + " </h3>");
-//out.println(session.getAttribute("student_name"));
+<style>
+#heading
+{
+text-align:center;
+color:black;
+background-color:#789768;
+height:60px;
+padding-top:1px;
+}
+#logout
+{
+text-align:right;
 
+}
 
+</style>
+<body bgcolor="#E9D7D7">
+<div id="heading">
+<h3>STUDENT INFORMATION PORTAL</h3>
+</div>
+<div id="logout">
+<form action="logout.jsp">
+<input type="submit" value="logout"/>
+</form>
+</div>
+<%= "<h3 > <i>Welcome "+ request.getParameter("student_name") + "</i></h3>" %>
+<h3 style="text-align:center"> Student Details </h3>
 
+<% 
+String name=request.getParameter("student_name");
+StudentDatabaseMap sdb=new StudentDatabaseMap();
+sdb.create();
+HashMap <String,Student> student_map=new HashMap<>();
+student_map=sdb.show();
+%>
+<table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
+<tr >
+<td > Name </td> 
+<td > Study Mark 1</td>
+<td> Study Mark 2</td>
+<td> Study Mark 3</td>
+<td> Sports Mark 1</td>
+<td> Sports Mark 2</td>
+
+</tr>
+
+<% 
+
+	
+			out.println("<tr>");		
+			out.println("<td>"+ student_map.get(name).name +"</td>"  );
+			out.println("<td>"+ student_map.get(name).mark1 +"</td>" );
+			out.println("<td>"+ student_map.get(name).mark2+"</td>" );
+			out.println("<td>"+ student_map.get(name).mark3 +"</td>" );
+			out.println("<td>"+ student_map.get(name).sports_mark1 +"</td>" );
+			out.println("<td>"+ student_map.get(name).sports_mark2 +"</td>" );
+			out.println("</tr>");
+		
+		
+	
 %>
 
-<form action="sports.jsp">
-<table>
-<tr>
-<td> Get Sports Score</td> 
-<td> <input type="submit" value="Sports Details"/> </td></tr>
+
 </table>
-</form>
-<form action="study.jsp">
-<table>
-<tr>
-<td> Get Academic Score</td><td> <input type="submit" value="Study Details"/> </td>
-</tr>
-</table>
-</form>
-<form action="report.jsp">
-<table>
-<tr> 
-<td> Get Overall Report </td><td> <input type="submit" value="Student Report"/> </td>
-</tr>
-</table>
-</form>
 </body>
 </html>
