@@ -43,11 +43,12 @@ text-align:right;
 <% 
 StudentDatabaseMap sdb=new StudentDatabaseMap();
 sdb.create();
-HashMap <String,Student> student_map=new HashMap<>();
+HashMap <Integer,Student> student_map=new HashMap<>();
 student_map=sdb.show();
 %>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
 <tr >
+<td> Student_id </td>
 <td > Name </td> 
 <td > Study Mark 1</td>
 <td> Study Mark 2</td>
@@ -58,11 +59,12 @@ student_map=sdb.show();
 </tr>
 
 <% 
-Set<String> key=student_map.keySet();
-for(String i:key)
+Set<Integer> key=student_map.keySet();
+for(Integer i:key)
 	{
 	
-			out.println("<tr>");		
+			out.println("<tr>");	
+			out.println("<td>"+ student_map.get(i).student_id +"</td>"  );
 			out.println("<td>"+ student_map.get(i).name +"</td>"  );
 			out.println("<td>"+ student_map.get(i).mark1 +"</td>" );
 			out.println("<td>"+ student_map.get(i).mark2+"</td>" );

@@ -4,6 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="we.app.sdb.*" %>
 <%@ page import="java.lang.Integer.*" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Set" %>
 <%@ page errorPage="error.jsp" %>
@@ -45,11 +46,18 @@ text-align:right;
 String name=request.getParameter("student_name");
 StudentDatabaseMap sdb=new StudentDatabaseMap();
 sdb.create();
-HashMap <String,Student> student_map=new HashMap<>();
+HashMap <Integer,Student> student_map=new HashMap<>();
 student_map=sdb.show();
+int key=0;
+for(Map.Entry<Integer,Student>entry:student_map.entrySet())
+{
+    if(entry.getValue().name.equals(name))
+        key = entry.getKey();
+}
 %>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
 <tr >
+<td> Student_id </td>
 <td > Name </td> 
 <td > Study Mark 1</td>
 <td> Study Mark 2</td>
@@ -61,14 +69,14 @@ student_map=sdb.show();
 
 <% 
 
-	
-			out.println("<tr>");		
-			out.println("<td>"+ student_map.get(name).name +"</td>"  );
-			out.println("<td>"+ student_map.get(name).mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(name).mark2+"</td>" );
-			out.println("<td>"+ student_map.get(name).mark3 +"</td>" );
-			out.println("<td>"+ student_map.get(name).sports_mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(name).sports_mark2 +"</td>" );
+			out.println("<tr>");
+			out.println("<td>"+ student_map.get(key).student_id+"</td>"  );
+			out.println("<td>"+ student_map.get(key).name +"</td>"  );
+			out.println("<td>"+ student_map.get(key).mark1 +"</td>" );
+			out.println("<td>"+ student_map.get(key).mark2+"</td>" );
+			out.println("<td>"+ student_map.get(key).mark3 +"</td>" );
+			out.println("<td>"+ student_map.get(key).sports_mark1 +"</td>" );
+			out.println("<td>"+ student_map.get(key).sports_mark2 +"</td>" );
 			out.println("</tr>");
 		
 		
