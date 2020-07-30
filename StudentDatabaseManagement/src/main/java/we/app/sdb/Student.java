@@ -1,5 +1,7 @@
 package we.app.sdb;
 
+
+
 public class Student {
 	public int student_id;
 	public String name;
@@ -11,6 +13,8 @@ public class Student {
 
 	    public Student(int student_id,String name,int mark1,int mark2,int mark3,int sports_mark1,int sports_mark2)
 	    {
+	    	
+
 	    	this.student_id=student_id;
 	        this.name=name;
 	        this.mark1=mark1;

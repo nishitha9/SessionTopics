@@ -54,6 +54,7 @@ for(Map.Entry<Integer,Student>entry:student_map.entrySet())
     if(entry.getValue().name.equals(name))
         key = entry.getKey();
 }
+session.setAttribute("student", sdb);
 %>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
 <tr >
