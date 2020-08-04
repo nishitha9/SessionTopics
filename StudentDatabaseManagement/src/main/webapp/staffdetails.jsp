@@ -6,6 +6,11 @@
 <%@ page import="java.lang.Integer.*" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="com.google.appengine.api.datastore.DatastoreService" %>
+<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.datastore.Entity"%>
+<%@ page import="com.google.appengine.api.datastore.Query" %>
+<%@ page import= "com.google.appengine.api.datastore.FetchOptions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,14 +42,24 @@ text-align:right;
 <input type="submit" value="logout"/>
 </form>
 </div>
-<%= "<h3 > <i>Welcome "+ request.getParameter("staff_name") + "</i></h3>" %>
+<form action="createStudent.jsp">
+
+Create Student<input type="submit" value="create"/>
+</form>
+<%
+
+session.setAttribute("staffName", request.getParameter("staff_name"));
+
+%>
+<%= "<h3 > <i>Welcome "+  session.getAttribute("staffName")+ "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
-StudentDatabaseMap sdb=new StudentDatabaseMap();
-sdb.create();
-HashMap <Integer,Student> student_map=new HashMap<>();
-student_map=sdb.show();
+DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
+StudentDatastore studentdatastore=new StudentDatastore();
+studentdatastore.doGet(request, response);
+//Entity student=studentdatastore.show();
+//out.print(student.getKind());
 %>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
 <tr >
@@ -59,25 +74,29 @@ student_map=sdb.show();
 </tr>
 
 <% 
-Set<Integer> key=student_map.keySet();
-for(Integer i:key)
+Query query = new Query("StudentDatastore");
+List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
+
+
+	for(Entity student:users)
 	{
-	
 			out.println("<tr>");	
-			out.println("<td>"+ student_map.get(i).student_id +"</td>"  );
-			out.println("<td>"+ student_map.get(i).name +"</td>"  );
-			out.println("<td>"+ student_map.get(i).mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(i).mark2+"</td>" );
-			out.println("<td>"+ student_map.get(i).mark3 +"</td>" );
-			out.println("<td>"+ student_map.get(i).sports_mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(i).sports_mark2 +"</td>" );
+			out.println("<td>"+ student.getProperty("StudentId") +"</td>"  );
+			out.println("<td>"+ student.getProperty("Name") +"</td>"  );
+			out.println("<td>"+ student.getProperty("StudyMark1") +"</td>" );
+			out.println("<td>"+ student.getProperty("StudyMark2")+"</td>" );
+			out.println("<td>"+ student.getProperty("StudyMark3") +"</td>" );
+			out.println("<td>"+ student.getProperty("SportsMark1") +"</td>" );
+			out.println("<td>"+ student.getProperty("SportsMark2") +"</td>" ); 
 			out.println("</tr>");
+	}
 		
-		}
+		
 	
 %>
 
 
 </table>
+
 </body>
 </html>

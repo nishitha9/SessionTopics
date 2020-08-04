@@ -8,6 +8,13 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Set" %>
 <%@ page errorPage="error.jsp" %>
+<%@ page import="com.google.appengine.api.datastore.DatastoreService"%>
+<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory"%>
+
+<%@page import= "com.google.appengine.api.datastore.Entity"%>
+<%@page import="com.google.appengine.api.datastore.PreparedQuery"%>
+<%@page import= "com.google.appengine.api.datastore.Query"%>
+<%@page import= "com.google.appengine.api.datastore.Query.FilterOperator" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,22 +46,15 @@ text-align:right;
 <input type="submit" value="logout"/>
 </form>
 </div>
-<%= "<h3 > <i>Welcome "+ request.getParameter("student_name") + "</i></h3>" %>
+<%= "<h3 > <i>Welcome "+ request.getParameter("student_id") + "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
-String name=request.getParameter("student_name");
-StudentDatabaseMap sdb=new StudentDatabaseMap();
-sdb.create();
-HashMap <Integer,Student> student_map=new HashMap<>();
-student_map=sdb.show();
-int key=0;
-for(Map.Entry<Integer,Student>entry:student_map.entrySet())
-{
-    if(entry.getValue().name.equals(name))
-        key = entry.getKey();
-}
-session.setAttribute("student", sdb);
+DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
+StudentDatastore studentdatastore=new StudentDatastore();
+studentdatastore.doGet(request, response);
+
+
 %>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;text-align:center;">
 <tr >
@@ -70,17 +70,22 @@ session.setAttribute("student", sdb);
 
 <% 
 
-			out.println("<tr>");
-			out.println("<td>"+ student_map.get(key).student_id+"</td>"  );
-			out.println("<td>"+ student_map.get(key).name +"</td>"  );
-			out.println("<td>"+ student_map.get(key).mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(key).mark2+"</td>" );
-			out.println("<td>"+ student_map.get(key).mark3 +"</td>" );
-			out.println("<td>"+ student_map.get(key).sports_mark1 +"</td>" );
-			out.println("<td>"+ student_map.get(key).sports_mark2 +"</td>" );
-			out.println("</tr>");
-		
-		
+Query query = new Query("StudentDatastore").addFilter("StudentId", FilterOperator.EQUAL, request.getParameter("student_id"));
+PreparedQuery pq=datastore.prepare(query);
+for(Entity student: pq.asIterable())
+{
+	
+	
+	out.println("<tr>");	
+	out.println("<td>"+ student.getProperty("StudentId") +"</td>"  );
+	out.println("<td>"+ student.getProperty("Name") +"</td>"  );
+	out.println("<td>"+ student.getProperty("StudyMark1") +"</td>" );
+	out.println("<td>"+ student.getProperty("StudyMark2")+"</td>" );
+	out.println("<td>"+ student.getProperty("StudyMark3") +"</td>" );
+	out.println("<td>"+ student.getProperty("SportsMark1") +"</td>" );
+	out.println("<td>"+ student.getProperty("SportsMark2") +"</td>" ); 
+	out.println("</tr>");
+}
 	
 %>
 
