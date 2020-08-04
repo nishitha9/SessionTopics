@@ -38,7 +38,7 @@ text-align:right;
 <h3>STUDENT INFORMATION PORTAL</h3>
 </div>
 <div id="logout">
-<form action="logout.jsp">
+<form action="logoutstaff.jsp">
 <input type="submit" value="logout"/>
 </form>
 </div>
@@ -74,7 +74,11 @@ studentdatastore.doGet(request, response);
 </tr>
 
 <% 
-Query query = new Query("StudentDatastore");
+
+String entityKind=(String)session.getAttribute("EntityKind");
+Query query = new Query(entityKind);
+
+out.println(entityKind);
 List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
 

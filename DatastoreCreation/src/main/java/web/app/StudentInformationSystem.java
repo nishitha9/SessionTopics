@@ -18,6 +18,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Transaction;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -62,13 +63,18 @@ public void createStudent(HttpServletRequest request, HttpServletResponse respon
 		studentForm.setProperty("CGPA",request.getParameter("cgpa"));
 		studentForm.setProperty("Date added", date);
 		
-		EmbeddedEntity contactInfo =new EmbeddedEntity();
+		datastore.put(studentForm);
+		
+	/*	EmbeddedEntity contactInfo =new EmbeddedEntity();
 		contactInfo.setProperty("address", "chennai");
 		contactInfo.setProperty("Pincode","600189");
 		contactInfo.setProperty("Country","India");
 		
 		studentForm.setProperty("Address", contactInfo);
 		datastore.put(studentForm);
+		
+		
+		Transaction trans=datastore.beginTransaction();
 		
 		Entity e1=new Entity("Organisation");
 		Key key=e1.getKey();
@@ -83,20 +89,20 @@ public void createStudent(HttpServletRequest request, HttpServletResponse respon
 		out.print("key: "+  key);
 		*/
 		
-		Query query=new Query("Students").addFilter("DBMS", FilterOperator.GREATER_THAN, 5.0);
+	/*	Query query=new Query("Students");
 		PreparedQuery pq1=datastore.prepare(query);
 		for(Entity i:pq1.asIterable())
 		{
 			out.println(studentForm.getProperty("Name"));
 			
-		}
+		} */
 		
 		
 	
 		out.print("Student Added!!!");
 		out.println("<a href=\"studentmarks.jsp\"><button>View Entry</button></a>");
 		HttpSession session=request.getSession();
-		session.setAttribute("Entity", studentForm); 
+		session.setAttribute("Entity", studentForm);  
   }
   
   

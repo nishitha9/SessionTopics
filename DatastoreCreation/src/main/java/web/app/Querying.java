@@ -17,7 +17,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.repackaged.com.google.datastore.v1.client.DatastoreOptions;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.TransactionOptions;
+import com.google.appengine.repackaged.com.google.datastore.v1.TransactionOptions.ReadOnly;
 
 public class Querying extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,8 +30,17 @@ public class Querying extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
 	
+	//	StudentInformationSystem sis=new StudentInformationSystem();
+	//	sis.doGet(request, response);
+		
+		Transaction trans=(Transaction) datastore.beginTransaction();
+		
+		
+		
+		try
+		{
 	
-		 Query query=new Query("Students").addFilter("RegNo",FilterOperator.EQUAL,request.getParameter("studentID"));
+		 Query query=new Query("Students").addFilter("RegNo",FilterOperator.EQUAL, "9098"/*request.getParameter("studentID")*/);
 			PreparedQuery pq=datastore.prepare(query);
 			for(Entity studentEntities: pq.asIterable())
 			{
@@ -42,13 +53,23 @@ public class Querying extends HttpServlet {
 				out.println("CCGPA: "+ studentEntities.getProperty("CGPA"));
 				out.println("Date Added: "+ studentEntities.getProperty("Date Added"));
 			
-				
+				trans.commit();
 			}
+			
+		}catch(Exception e)
+		{
+			out.print(e);
+			trans.rollback();
+		}finally
+		{
+			
+		}
+		
 			int id=Integer.parseInt(request.getParameter("studentID"));
 			if(id>=13)
 			{
 				out.println("User not registered yet!!");
-			}
+			} 
 			
 			
 	
