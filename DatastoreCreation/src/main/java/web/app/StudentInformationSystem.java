@@ -6,9 +6,12 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.KeyFactory.Builder;
 import com.google.appengine.api.datastore.PostalAddress;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -40,7 +43,7 @@ public class StudentInformationSystem extends HttpServlet {
 public void createStudent(HttpServletRequest request, HttpServletResponse response) throws IOException, EntityNotFoundException
   {
 	  PrintWriter out=response.getWriter();
-	//	response.setContentType("text/html");
+		response.setContentType("text/html");
 	  Date date=new Date();
 	  SimpleDateFormat sdf=new SimpleDateFormat("mm:dd:yyyy");
 	  sdf.format(date);
@@ -59,30 +62,39 @@ public void createStudent(HttpServletRequest request, HttpServletResponse respon
 		studentForm.setProperty("CGPA",request.getParameter("cgpa"));
 		studentForm.setProperty("Date added", date);
 		
+		EmbeddedEntity contactInfo =new EmbeddedEntity();
+		contactInfo.setProperty("address", "chennai");
+		contactInfo.setProperty("Pincode","600189");
+		contactInfo.setProperty("Country","India");
+		
+		studentForm.setProperty("Address", contactInfo);
 		datastore.put(studentForm);
+		
+		Entity e1=new Entity("Organisation");
+		Key key=e1.getKey();
+		out.println(key);
+		datastore.put(e1);
+		Key key1=new KeyFactory.Builder("Organisation","rootnode1").addChild("Manager", "rootnode2").addChild("Labours", "rootnode3").getKey();
+		
+		out.println(key1);
 	/*	Key key=studentForm.getKey();
 		Entity e1=datastore.get(key);
 		System.out.print("Entity: "+ e1);
 		out.print("key: "+  key);
 		*/
 		
-		Query query=new Query("Students").addFilter("RegNo",FilterOperator.EQUAL,"5");
-		PreparedQuery pq=datastore.prepare(query);
-		for(Entity studentEntities: pq.asIterable())
+		Query query=new Query("Students").addFilter("DBMS", FilterOperator.GREATER_THAN, 5.0);
+		PreparedQuery pq1=datastore.prepare(query);
+		for(Entity i:pq1.asIterable())
 		{
-			out.println(studentEntities.getProperty("Name"));
-			out.println(studentEntities.getProperty("RegNo"));
-			out.println(studentEntities.getProperty("DBMS"));
-			out.println(studentEntities.getProperty("OS"));
-			out.println(studentEntities.getProperty("CNS"));
-			out.println(studentEntities.getProperty("GPA"));
-			out.println(studentEntities.getProperty("CGPA"));
-			out.println(studentEntities.getProperty("Date Added"));
+			out.println(studentForm.getProperty("Name"));
 			
 		}
 		
+		
+	
 		out.print("Student Added!!!");
-//		out.println("<a href=\"Querying\"><button>View Entry</button></a>");
+		out.println("<a href=\"studentmarks.jsp\"><button>View Entry</button></a>");
 		HttpSession session=request.getSession();
 		session.setAttribute("Entity", studentForm); 
   }
