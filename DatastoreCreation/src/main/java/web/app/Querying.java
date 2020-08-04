@@ -14,6 +14,12 @@ import javax.servlet.http.HttpSession;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.TransactionOptions;
+import com.google.appengine.repackaged.com.google.datastore.v1.TransactionOptions.ReadOnly;
 
 public class Querying extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,20 +27,51 @@ public class Querying extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
-		HttpSession session=request.getSession();
 		PrintWriter out=response.getWriter();
-		 DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
-		 Entity student=(Entity)session.getAttribute("Entity");
-		 Map<String,Object> studentMap=student.getProperties();
-		 Set<String> key=studentMap.keySet();
-		 for(String i:key)
-		 {
-			 out.println(i+ " "+studentMap.get(i));
-		 }
-	//	 out.print(student.getProperty("OS"));
-	//	 out.println(student.getProperty("Name"));
-		 
-
+		DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
+	
+	//	StudentInformationSystem sis=new StudentInformationSystem();
+	//	sis.doGet(request, response);
+		
+		Transaction trans=(Transaction) datastore.beginTransaction();
+		
+		
+		
+		try
+		{
+	
+		 Query query=new Query("Students").addFilter("RegNo",FilterOperator.EQUAL, "9098"/*request.getParameter("studentID")*/);
+			PreparedQuery pq=datastore.prepare(query);
+			for(Entity studentEntities: pq.asIterable())
+			{
+				out.println("Name: "+ studentEntities.getProperty("Name"));
+				out.println("Reg No: "+ studentEntities.getProperty("RegNo"));
+				out.println("DBMS Grade: "+ studentEntities.getProperty("DBMS"));
+				out.println("OS Grade: "+ studentEntities.getProperty("OS"));
+				out.println("CNS Grade: "+ studentEntities.getProperty("CNS"));
+				out.println("GPA: "+ studentEntities.getProperty("GPA"));
+				out.println("CCGPA: "+ studentEntities.getProperty("CGPA"));
+				out.println("Date Added: "+ studentEntities.getProperty("Date Added"));
+			
+				trans.commit();
+			}
+			
+		}catch(Exception e)
+		{
+			out.print(e);
+			trans.rollback();
+		}finally
+		{
+			
+		}
+		
+			int id=Integer.parseInt(request.getParameter("studentID"));
+			if(id>=13)
+			{
+				out.println("User not registered yet!!");
+			} 
+			
+			
 	
 	}
 	

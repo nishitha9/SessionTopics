@@ -21,8 +21,8 @@ padding-top:1px;
 <form action="studentinfo.jsp">
 <table >
 <tr> 
-<td>Student Name </td>
-<td><input type="text" name="student_name"/></td>
+<td>Student Id </td>
+<td><input type="text" name="student_id"/></td>
 </tr>
 <tr>
 <td>Password</td>

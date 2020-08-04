@@ -16,14 +16,14 @@
 <title>Get Marks</title>
 </head>
 <body>
-<form action="studentmarks.jsp">
+<form action="Querying">
 
 Enter your Reg Number<input type="text" name="studentID">
 <input type="submit" value="submit"/>
 
 </form>
 <%
-
+/*
 studentmarks student=new studentmarks();
 student.doGet(request, response);
 Entity studentEntity=student.show();
@@ -40,7 +40,7 @@ out.print(studentEntity.getProperty("demo"));
 out.print(studentEntity.getKind());
 out.print("<br>");
 out.println("hey");
-
+*/
 %>
 </body>
 </html>
