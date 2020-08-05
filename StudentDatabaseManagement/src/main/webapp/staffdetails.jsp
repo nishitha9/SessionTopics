@@ -78,12 +78,21 @@ studentdatastore.doGet(request, response);
 String entityKind=(String)session.getAttribute("EntityKind");
 Query query = new Query(entityKind);
 
-out.println(entityKind);
-List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
+//out.println(entityKind);
+List<Entity> users =datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
 	for(Entity student:users)
 	{
+		if(student.getProperty("StudentId")==null)
+		{
+			//out.println("Session exprired! Cannot retrieve data");
+			//break ;
+			RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+			rd.forward(request,response);
+		}
+		
+		
 			out.println("<tr>");	
 			out.println("<td>"+ student.getProperty("StudentId") +"</td>"  );
 			out.println("<td>"+ student.getProperty("Name") +"</td>"  );
