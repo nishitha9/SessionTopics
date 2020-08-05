@@ -78,7 +78,6 @@ studentdatastore.doGet(request, response);
 String entityKind=(String)session.getAttribute("EntityKind");
 Query query = new Query(entityKind);
 
-
 //out.println(entityKind);
 List<Entity> users =datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
