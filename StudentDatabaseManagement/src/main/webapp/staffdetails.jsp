@@ -38,7 +38,7 @@ text-align:right;
 <h3>STUDENT INFORMATION PORTAL</h3>
 </div>
 <div id="logout">
-<form action="logout.jsp">
+<form action="stafflogout.jsp">
 <input type="submit" value="logout"/>
 </form>
 </div>
@@ -46,18 +46,14 @@ text-align:right;
 
 Create Student<input type="submit" value="create"/>
 </form>
-<%
 
-session.setAttribute("staffName", request.getParameter("staff_name"));
-
-%>
 <%= "<h3 > <i>Welcome "+  session.getAttribute("staffName")+ "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
 DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
-StudentDatastore studentdatastore=new StudentDatastore();
-studentdatastore.doGet(request, response);
+//StudentDatastore studentdatastore=new StudentDatastore();
+//studentdatastore.doGet(request, response);
 //Entity student=studentdatastore.show();
 //out.print(student.getKind());
 %>

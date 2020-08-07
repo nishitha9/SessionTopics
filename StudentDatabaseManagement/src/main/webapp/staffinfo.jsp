@@ -9,7 +9,7 @@
 </head>
 <body>
 <%
-
+session.setAttribute("staffName", request.getParameter("staff_name"));
 String password=request.getParameter("password");
 if(password.equals("staff"))
 {
