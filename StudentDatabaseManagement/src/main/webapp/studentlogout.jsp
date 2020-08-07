@@ -9,12 +9,10 @@
 <body>
 <%
 
-response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-response.setDateHeader("Expires", -1);
-response.setHeader("Expires", "0");
+session.invalidate();
 
 %>
 Session has expired. Click <a href="index.jsp"/>  here </a> to log in again.
+Click <a href="studentdetails.jsp"/>  here </a> to view student details.
 </body>
 </html>

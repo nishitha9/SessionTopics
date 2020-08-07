@@ -18,13 +18,12 @@ import com.google.appengine.api.datastore.Query;
  * Servlet implementation class StudentDatastore
  */
 public class StudentDatastore extends HttpServlet {
-	private static final long serialVersionUID = 1L;
- 
+	
 	Entity student1;
 	Entity studentForm;
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		student1=new Entity("StudentDatastore",2);
+		student1=new Entity("StudentDatastore",1);
 		student1.setProperty("StudentId","1" );
 		student1.setProperty("Name","Nishitha" );
 		student1.setProperty("StudyMark1","90" );

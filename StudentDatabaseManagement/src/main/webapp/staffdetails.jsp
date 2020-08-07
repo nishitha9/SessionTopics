@@ -80,6 +80,9 @@ List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLi
 
 	for(Entity student:users)
 	{
+		if(student.getProperty("Student_Id")==null)
+			response.sendRedirect("index.jsp");
+		
 			out.println("<tr>");	
 			out.println("<td>"+ student.getProperty("StudentId") +"</td>"  );
 			out.println("<td>"+ student.getProperty("Name") +"</td>"  );

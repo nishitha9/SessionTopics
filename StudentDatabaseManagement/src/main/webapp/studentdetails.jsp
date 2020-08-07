@@ -42,11 +42,11 @@ text-align:right;
 <h3>STUDENT INFORMATION PORTAL</h3>
 </div>
 <div id="logout">
-<form action="logout.jsp">
+<form action="studentlogout.jsp">
 <input type="submit" value="logout"/>
 </form>
 </div>
-<%= "<h3 > <i>Welcome "+ request.getParameter("student_id") + "</i></h3>" %>
+<%= "<h3 > <i>Welcome " + "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
@@ -70,7 +70,7 @@ studentdatastore.doGet(request, response);
 
 <% 
 
-Query query = new Query("StudentDatastore").addFilter("StudentId", FilterOperator.EQUAL, request.getParameter("student_id"));
+Query query = new Query("StudentDatastore").addFilter("StudentId", FilterOperator.EQUAL, session.getAttribute("student_id"));
 PreparedQuery pq=datastore.prepare(query);
 for(Entity student: pq.asIterable())
 {
