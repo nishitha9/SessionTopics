@@ -46,7 +46,7 @@ text-align:right;
 <input type="submit" value="logout"/>
 </form>
 </div>
-<%= "<h3 > <i>Welcome " + "</i></h3>" %>
+<%= "<h3 > <i>Welcome " + session.getAttribute("studentName") + "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
@@ -79,6 +79,7 @@ for(Entity student: pq.asIterable())
 	out.println("<tr>");	
 	out.println("<td>"+ student.getProperty("StudentId") +"</td>"  );
 	out.println("<td>"+ student.getProperty("Name") +"</td>"  );
+	session.setAttribute("name", student.getProperty("Name"));
 	out.println("<td>"+ student.getProperty("StudyMark1") +"</td>" );
 	out.println("<td>"+ student.getProperty("StudyMark2")+"</td>" );
 	out.println("<td>"+ student.getProperty("StudyMark3") +"</td>" );

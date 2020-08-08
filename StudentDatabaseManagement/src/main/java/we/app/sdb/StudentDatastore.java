@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -38,19 +39,12 @@ public class StudentDatastore extends HttpServlet {
 		student1.setProperty("SportsMark2","89" ); 
 		DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
 		datastore.put(student1);
-	
-
-		
-	
 	}
+	
 	@RequestMapping("/")
 	public String indexPage()
 	{
 		return "index.jsp";
 	}
-
-
-
-	
 
 }

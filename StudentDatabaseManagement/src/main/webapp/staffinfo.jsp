@@ -9,7 +9,7 @@
 </head>
 <body>
 <%
-session.setAttribute("staffName", request.getParameter("staff_name"));
+session.setAttribute("EntityKind", "StudentDatastore");
 String password=request.getParameter("password");
 if(password.equals("staff"))
 {

@@ -42,17 +42,17 @@ text-align:right;
 <input type="submit" value="logout"/>
 </form>
 </div>
-<form action="createStudent.jsp">
+<form action="createStudent.jsp" action="post">
 
 Create Student<input type="submit" value="create"/>
 </form>
 
-<%= "<h3 > <i>Welcome "+  session.getAttribute("staffName")+ "</i></h3>" %>
+<%= "<h3 > <i>Welcome "+ request.getParameter("staff_name")+ "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 
 DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
-StudentDatastore studentdatastore=new StudentDatastore();
+//StudentDatastore studentdatastore=new StudentDatastore();
 //studentdatastore.doGet(request, response);
 //Entity student=studentdatastore.show();
 //out.print(student.getKind());
@@ -70,8 +70,9 @@ StudentDatastore studentdatastore=new StudentDatastore();
 </tr>
 
 <% 
+String entityKind=(String)session.getAttribute("EntityKind");
 
-Query query = new Query("StudentDatastore");
+Query query = new Query(entityKind);
 List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
 
