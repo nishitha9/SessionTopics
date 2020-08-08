@@ -52,7 +52,7 @@ Create Student<input type="submit" value="create"/>
 
 <% 
 DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
-//StudentDatastore studentdatastore=new StudentDatastore();
+StudentDatastore studentdatastore=new StudentDatastore();
 //studentdatastore.doGet(request, response);
 //Entity student=studentdatastore.show();
 //out.print(student.getKind());
@@ -70,13 +70,14 @@ DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
 </tr>
 
 <% 
+
 Query query = new Query("StudentDatastore");
 List<Entity> users = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
 
 
 	for(Entity student:users)
 	{
-		if(student.getProperty("Student_Id")==null)
+		if(student.getProperty("StudentId")==null)
 			response.sendRedirect("index.jsp");
 		
 			out.println("<tr>");	
