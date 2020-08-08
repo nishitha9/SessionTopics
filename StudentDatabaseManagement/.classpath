@@ -19,7 +19,7 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/nishitha/Downloads/jar_files/appengine-api-1.0-sdk-1.9.81.jar"/>
-	<classpathentry kind="lib" path="/Users/nishitha/Downloads/jar_files/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="/Users/nishitha/Desktop/course/Datastore jar/appengine-api-1.0-sdk-1.9.81.jar"/>
+	<classpathentry kind="lib" path="/Users/nishitha/Desktop/course/Datastore jar/javax.inject-1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
