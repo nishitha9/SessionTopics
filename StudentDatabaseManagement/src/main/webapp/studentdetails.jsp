@@ -46,7 +46,7 @@ text-align:right;
 <input type="submit" value="logout"/>
 </form>
 </div>
-<%= "<h3 > <i>Welcome "+  "</i></h3>" %>
+<%= "<h3 > <i>Welcome "+ session.getAttribute("studentName") + "</i></h3>" %>
 <h3 style="text-align:center"> Student Details </h3>
 
 <% 

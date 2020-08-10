@@ -8,14 +8,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-public class createStudent extends HttpServlet {
+@Controller
+@ComponentScan({"we.app.sdb"})
+@RequestMapping("/")
+public class createStudent  {
 	Entity studentForm;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@GetMapping("/createStudent")
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		response.setContentType("text/html");
 		DatastoreService datastore=DatastoreServiceFactory.getDatastoreService();
@@ -34,10 +44,11 @@ public class createStudent extends HttpServlet {
 		out.println("<a href=\"staffdetails.jsp\"><button>View Entry</button></a>");
 	}
 	
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	@GetMapping("/test")
+	public void sample(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
-		
+		PrintWriter out=response.getWriter();
+		out.println("Test result printed");
 	}
 
 }
